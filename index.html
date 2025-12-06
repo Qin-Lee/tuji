@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>途迹 TravelPath - 智能旅游攻略平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 自定义光标 -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✈</span>
+                <span class="logo-text">途迹</span>
+                <span class="logo-sub">TravelPath</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active">首页</a>
+                <div class="dropdown">
+                    <a href="#destinations" class="nav-link dropdown-trigger">目的地 <span class="arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="#" data-city="北京">北京</a>
+                        <a href="#" data-city="上海">上海</a>
+                        <a href="#" data-city="杭州">杭州</a>
+                        <a href="#" data-city="成都">成都</a>
+                        <a href="#" data-city="西安">西安</a>
+                        <a href="#" data-city="厦门">厦门</a>
+                        <a href="#" data-city="丽江">丽江</a>
+                        <a href="#" data-city="三亚">三亚</a>
+                    </div>
+                </div>
+                <a href="#weather" class="nav-link">天气</a>
+                <a href="#news" class="nav-link">资讯</a>
+                <a href="#reviews" class="nav-link">游记</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="btn-subscribe" id="subscribeBtn">
+                    <span class="bell-icon">🔔</span> 订阅推送
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 + 轮播图 -->
+    <section class="hero" id="home">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1920&q=80')">
+                    <div class="slide-content">
+                        <h2>北京 · 长城</h2>
+                        <p>不到长城非好汉，登临万里一览众山小</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?w=1920&q=80')">
+                    <div class="slide-content">
+                        <h2>上海 · 外滩</h2>
+                        <p>十里洋场繁华梦，东方明珠耀浦江</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1609921212029-bb5a28e60960?w=1920&q=80')">
+                    <div class="slide-content">
+                        <h2>杭州 · 西湖</h2>
+                        <p>欲把西湖比西子，淡妆浓抹总相宜</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1598887142487-3c854d51eabb?w=1920&q=80')">
+                    <div class="slide-content">
+                        <h2>成都 · 宽窄巷子</h2>
+                        <p>慢生活里品川味，悠然自得享蓉城</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1529921879218-a1cfa3b86d0d?w=1920&q=80')">
+                    <div class="slide-content">
+                        <h2>三亚 · 亚龙湾</h2>
+                        <p>椰风海韵天涯路，碧海蓝天度假情</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-btn prev">❮</button>
+            <button class="carousel-btn next">❯</button>
+            <div class="carousel-dots"></div>
+        </div>
+        
+        <!-- 位置搜索浮层 -->
+        <div class="location-search-overlay">
+            <div class="search-box">
+                <h3>🌍 探索你的下一站</h3>
+                <div class="search-input-group">
+                    <button class="btn-locate" id="autoLocate">
+                        <span class="locate-icon">📍</span> 自动定位
+                    </button>
+                    <span class="or-text">或</span>
+                    <div class="manual-input">
+                        <input type="text" id="cityInput" placeholder="输入城市名称..." list="cityList">
+                        <datalist id="cityList">
+                            <option value="北京">
+                            <option value="上海">
+                            <option value="广州">
+                            <option value="深圳">
+                            <option value="杭州">
+                            <option value="成都">
+                            <option value="西安">
+                            <option value="南京">
+                            <option value="武汉">
+                            <option value="重庆">
+                            <option value="苏州">
+                            <option value="厦门">
+                            <option value="青岛">
+                            <option value="大连">
+                            <option value="三亚">
+                            <option value="丽江">
+                            <option value="桂林">
+                            <option value="张家界">
+                        </datalist>
+                        <button class="btn-search" id="searchBtn">探索</button>
+                    </div>
+                </div>
+                <div class="current-location" id="currentLocation">
+                    <span class="loading-spinner" style="display: none;"></span>
+                    <span class="location-text">点击上方按钮获取位置</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 天气模块 -->
+    <section class="weather-section" id="weather">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-icon">🌤️</span>
+                实时天气 & 穿衣建议
+            </h2>
+            <div class="weather-card" id="weatherCard">
+                <div class="weather-loading">
+                    <div class="loading-pulse"></div>
+                    <p>选择城市后显示天气信息</p>
+                </div>
+                <div class="weather-content" style="display: none;">
+                    <div class="weather-main">
+                        <div class="weather-icon" id="weatherIcon">☀️</div>
+                        <div class="weather-temp">
+                            <span class="temp-value" id="tempValue">--</span>
+                            <span class="temp-unit">°C</span>
+                        </div>
+                        <div class="weather-desc" id="weatherDesc">--</div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">💧</span>
+                            <span class="detail-label">湿度</span>
+                            <span class="detail-value" id="humidity">--%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">💨</span>
+                            <span class="detail-label">风速</span>
+                            <span class="detail-value" id="windSpeed">-- m/s</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🌡️</span>
+                            <span class="detail-label">体感</span>
+                            <span class="detail-value" id="feelsLike">--°C</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">👁️</span>
+                            <span class="detail-label">能见度</span>
+                            <span class="detail-value" id="visibility">-- km</span>
+                        </div>
+                    </div>
+                    <div class="clothing-advice">
+                        <h4>👔 穿衣建议</h4>
+                        <p id="clothingAdvice">根据天气情况为您推荐合适的着装</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 未来天气预报 -->
+            <div class="forecast-container" id="forecastContainer">
+                <h3 class="forecast-title">📅 未来5天天气预报</h3>
+                <div class="forecast-cards" id="forecastCards">
+                    <!-- 预报卡片将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 景点推荐 -->
+    <section class="attractions-section" id="destinations">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-icon">📍</span>
+                周边景点推荐
+            </h2>
+            <div class="attractions-grid" id="attractionsGrid">
+                <!-- 景点卡片将通过JS动态生成 -->
+                <div class="attraction-placeholder">
+                    <p>🔍 请先选择或输入城市，为您推荐周边热门景点</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 旅行计划 -->
+    <section class="plan-section" id="plan">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-icon">📋</span>
+                智能旅行计划
+            </h2>
+            <div class="plan-card" id="planCard">
+                <div class="plan-placeholder">
+                    <div class="plan-icon">🗺️</div>
+                    <p>选择目的地后，我们将为您生成个性化旅行计划</p>
+                    <ul class="plan-features">
+                        <li>✨ 热门景点打卡路线</li>
+                        <li>🍜 特色美食推荐</li>
+                        <li>🏨 住宿区域建议</li>
+                        <li>🚌 交通出行指南</li>
+                    </ul>
+                </div>
+                <div class="plan-content" style="display: none;">
+                    <!-- 计划内容将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 新闻资讯 -->
+    <section class="news-section" id="news">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-icon">📰</span>
+                旅游资讯 & 新闻
+            </h2>
+            <div class="news-grid" id="newsGrid">
+                <!-- 新闻卡片 -->
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?w=400&q=80')"></div>
+                    <div class="news-content">
+                        <span class="news-tag">热点</span>
+                        <h3>2024年国内最值得去的10个小众目的地</h3>
+                        <p>厌倦了人山人海？这些小众秘境让你享受不一样的旅行体验...</p>
+                        <div class="news-meta">
+                            <span class="news-date">2024-12-06</span>
+                            <span class="news-views">👁 2.3k</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400&q=80')"></div>
+                    <div class="news-content">
+                        <span class="news-tag">攻略</span>
+                        <h3>冬季旅行必备：这些保暖神器让你温暖出行</h3>
+                        <p>冬季出游如何保暖又时尚？资深旅行达人分享私藏好物...</p>
+                        <div class="news-meta">
+                            <span class="news-date">2024-12-05</span>
+                            <span class="news-views">👁 1.8k</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80')"></div>
+                    <div class="news-content">
+                        <span class="news-tag">优惠</span>
+                        <h3>年末大促！多家航司推出超值机票折扣</h3>
+                        <p>元旦、春节出行福利来了，部分航线低至3折起...</p>
+                        <div class="news-meta">
+                            <span class="news-date">2024-12-04</span>
+                            <span class="news-views">👁 5.6k</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户游记分享 -->
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-icon">✍️</span>
+                游记分享
+            </h2>
+            
+            <!-- 发表游记表单 -->
+            <div class="review-form-card">
+                <h3>分享你的旅行故事</h3>
+                <form id="reviewForm" class="review-form">
+                    <div class="form-group">
+                        <label for="reviewerName">你的昵称</label>
+                        <input type="text" id="reviewerName" placeholder="给自己起个旅行代号~" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewDestination">去了哪里</label>
+                        <select id="reviewDestination" required>
+                            <option value="">选择目的地</option>
+                            <option value="北京">北京</option>
+                            <option value="上海">上海</option>
+                            <option value="杭州">杭州</option>
+                            <option value="成都">成都</option>
+                            <option value="西安">西安</option>
+                            <option value="厦门">厦门</option>
+                            <option value="丽江">丽江</option>
+                            <option value="三亚">三亚</option>
+                            <option value="桂林">桂林</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewRating">旅行评分</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="reviewRating" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewContent">旅行感想</label>
+                        <textarea id="reviewContent" rows="4" placeholder="分享你的旅行故事、景点推荐、避坑指南..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span>📤</span> 发布游记
+                    </button>
+                </form>
+            </div>
+
+            <!-- 游记列表 -->
+            <div class="reviews-list" id="reviewsList">
+                <!-- 示例游记 -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">🧑‍🎨</div>
+                        <div class="reviewer-info">
+                            <span class="reviewer-name">旅行小达人</span>
+                            <span class="review-location">📍 杭州</span>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="review-body">
+                        <p>西湖真的太美了！特别推荐傍晚时分去断桥残雪那边，落日余晖洒在湖面上，简直是人间仙境。记得带一瓶龙井茶，找个湖边的座位，慢慢品味这座城市的韵味。</p>
+                    </div>
+                    <div class="review-footer">
+                        <span class="review-date">2024-12-01</span>
+                        <div class="review-actions">
+                            <button class="btn-like"><span>❤️</span> 128</button>
+                            <button class="btn-comment"><span>💬</span> 23</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">👩‍💼</div>
+                        <div class="reviewer-info">
+                            <span class="reviewer-name">美食探险家</span>
+                            <span class="review-location">📍 成都</span>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="review-body">
+                        <p>来成都一定要去宽窄巷子和锦里！不过要避开人流高峰期。强烈推荐玉林路的小酒馆，还有奎星楼街的串串香，巴适得很！记得带好你的胃，因为你会停不下来的~</p>
+                    </div>
+                    <div class="review-footer">
+                        <span class="review-date">2024-11-28</span>
+                        <div class="review-actions">
+                            <button class="btn-like"><span>❤️</span> 256</button>
+                            <button class="btn-comment"><span>💬</span> 45</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅模块 -->
+    <section class="subscribe-section" id="subscribe">
+        <div class="container">
+            <div class="subscribe-card">
+                <div class="subscribe-content">
+                    <h2>🔔 订阅旅游资讯</h2>
+                    <p>第一时间获取最新旅游攻略、目的地推荐、优惠信息和天气预警</p>
+                    <form id="subscribeForm" class="subscribe-form">
+                        <div class="input-group">
+                            <input type="tel" id="phoneNumber" placeholder="输入手机号码" pattern="[0-9]{11}" required>
+                            <button type="submit" class="btn-subscribe-submit">立即订阅</button>
+                        </div>
+                        <div class="subscribe-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked> 天气预警
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked> 旅游攻略
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked> 优惠信息
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked> 目的地推荐
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="subscribe-decoration">
+                    <div class="floating-icons">
+                        <span class="float-icon" style="--delay: 0s">✈️</span>
+                        <span class="float-icon" style="--delay: 0.5s">🏖️</span>
+                        <span class="float-icon" style="--delay: 1s">🗻</span>
+                        <span class="float-icon" style="--delay: 1.5s">🌴</span>
+                        <span class="float-icon" style="--delay: 2s">🎒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">✈</span>
+                        <span class="logo-text">途迹</span>
+                    </div>
+                    <p>智能旅游攻略平台，让每一次出行都成为美好回忆</p>
+                </div>
+                <div class="footer-links">
+                    <h4>快速导航</h4>
+                    <a href="#home">首页</a>
+                    <a href="#destinations">目的地</a>
+                    <a href="#weather">天气查询</a>
+                    <a href="#reviews">游记分享</a>
+                </div>
+                <div class="footer-links">
+                    <h4>热门城市</h4>
+                    <a href="#" data-city="北京">北京</a>
+                    <a href="#" data-city="上海">上海</a>
+                    <a href="#" data-city="杭州">杭州</a>
+                    <a href="#" data-city="成都">成都</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>联系我们</h4>
+                    <p>📧 contact@travelpath.com</p>
+                    <p>📱 400-888-8888</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">微信</a>
+                        <a href="#" class="social-link">微博</a>
+                        <a href="#" class="social-link">小红书</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 途迹 TravelPath. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+
