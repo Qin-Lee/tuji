@@ -1,17 +1,40 @@
 /**
  * 途迹 TravelPath - 智能旅游攻略平台
  * 主应用脚本
+ * 使用高德地图API
  */
 
 // ========================================
-// API 配置（需要替换为真实API密钥）
+// API 配置
 // ========================================
 const CONFIG = {
-    // OpenWeatherMap API - 免费注册获取: https://openweathermap.org/api
-    WEATHER_API_KEY: 'YOUR_OPENWEATHERMAP_API_KEY', // 替换为你的API密钥
-    WEATHER_API_URL: 'https://api.openweathermap.org/data/2.5',
+    // 高德地图 API
+    AMAP_KEY: 'fec014039ba8dc133f5f6d989bb448e0',
+    AMAP_WEATHER_URL: 'https://restapi.amap.com/v3/weather/weatherInfo',
     
-    // 城市坐标映射（中国主要城市）
+    // 城市编码映射（高德adcode）
+    CITY_CODES: {
+        '北京': '110000',
+        '上海': '310000',
+        '广州': '440100',
+        '深圳': '440300',
+        '杭州': '330100',
+        '成都': '510100',
+        '西安': '610100',
+        '南京': '320100',
+        '武汉': '420100',
+        '重庆': '500000',
+        '苏州': '320500',
+        '厦门': '350200',
+        '青岛': '370200',
+        '大连': '210200',
+        '三亚': '460200',
+        '丽江': '530700',
+        '桂林': '450300',
+        '张家界': '430800'
+    },
+    
+    // 城市坐标映射（用于定位匹配）
     CITY_COORDS: {
         '北京': { lat: 39.9042, lon: 116.4074 },
         '上海': { lat: 31.2304, lon: 121.4737 },
@@ -137,6 +160,17 @@ const CONFIG = {
                 { time: '第三天 上午', title: '南山文化旅游区', desc: '参观南海观音，祈福许愿' },
                 { time: '第三天 下午', title: '天涯海角', desc: '打卡经典地标，看日落' },
                 { time: '第四天', title: '酒店休闲', desc: '享受酒店设施，睡到自然醒' }
+            ]
+        },
+        '西安': {
+            title: '西安3日古都游',
+            days: [
+                { time: '第一天 上午', title: '兵马俑', desc: '世界第八大奇迹，建议请讲解员' },
+                { time: '第一天 下午', title: '华清宫', desc: '参观温泉遗址，了解唐玄宗与杨贵妃的故事' },
+                { time: '第一天 晚上', title: '回民街', desc: '品尝西安美食：肉夹馍、羊肉泡馍、biangbiang面' },
+                { time: '第二天 上午', title: '古城墙', desc: '租自行车环城骑行，俯瞰古城' },
+                { time: '第二天 下午', title: '大雁塔', desc: '参观大慈恩寺，欣赏音乐喷泉' },
+                { time: '第三天', title: '陕西历史博物馆', desc: '了解十三朝古都的辉煌历史' }
             ]
         }
     }
@@ -387,11 +421,16 @@ function initLocation() {
                     currentCity = city;
                     
                     // 加载该城市的信息
-                    loadCityData(city, currentCoords);
+                    loadCityData(city);
                     showToast(`已定位到: ${city}`, 'success');
                 } catch (error) {
-                    locationText.textContent = '定位成功，正在加载天气...';
-                    loadWeatherByCoords(currentCoords);
+                    // 使用坐标匹配最近城市
+                    const city = findNearestCity(currentCoords.lat, currentCoords.lon);
+                    locationText.textContent = `📍 当前位置: ${city}`;
+                    DOM.cityInput.value = city;
+                    currentCity = city;
+                    loadCityData(city);
+                    showToast(`已定位到: ${city}`, 'success');
                 }
                 
                 spinner.style.display = 'none';
@@ -438,9 +477,8 @@ function initLocation() {
     });
 }
 
-// 反向地理编码（简化版 - 匹配最近的城市）
-async function reverseGeocode(lat, lon) {
-    // 查找最近的城市
+// 查找最近的城市
+function findNearestCity(lat, lon) {
     let nearestCity = '北京';
     let minDistance = Infinity;
     
@@ -457,19 +495,42 @@ async function reverseGeocode(lat, lon) {
     return nearestCity;
 }
 
+// 使用高德API进行逆地理编码
+async function reverseGeocode(lat, lon) {
+    try {
+        const response = await fetch(
+            `https://restapi.amap.com/v3/geocode/regeo?key=${CONFIG.AMAP_KEY}&location=${lon},${lat}&extensions=base`
+        );
+        const data = await response.json();
+        
+        if (data.status === '1' && data.regeocode) {
+            const city = data.regeocode.addressComponent.city;
+            // 去掉"市"字
+            return city.replace('市', '');
+        }
+    } catch (error) {
+        console.error('逆地理编码失败:', error);
+    }
+    
+    // 失败时使用坐标匹配
+    return findNearestCity(lat, lon);
+}
+
 // 搜索城市
 function searchCity(city) {
-    const coords = CONFIG.CITY_COORDS[city];
-    if (coords) {
-        currentCity = city;
-        currentCoords = coords;
-        loadCityData(city, coords);
+    // 处理带"市"字的城市名
+    const normalizedCity = city.replace('市', '');
+    
+    // 检查是否支持该城市
+    if (CONFIG.CITY_CODES[normalizedCity]) {
+        currentCity = normalizedCity;
+        loadCityData(normalizedCity);
         
         // 更新位置显示
         const locationText = DOM.currentLocation.querySelector('.location-text');
-        locationText.textContent = `📍 已选择: ${city}`;
+        locationText.textContent = `📍 已选择: ${normalizedCity}`;
         
-        showToast(`正在加载 ${city} 的旅游信息...`, 'info');
+        showToast(`正在加载 ${normalizedCity} 的旅游信息...`, 'info');
         
         // 滚动到天气区域
         setTimeout(() => {
@@ -483,144 +544,114 @@ function searchCity(city) {
 // ========================================
 // 加载城市数据
 // ========================================
-function loadCityData(city, coords) {
-    loadWeatherByCoords(coords);
+function loadCityData(city) {
+    loadWeatherByCity(city);
     loadAttractions(city);
     loadTravelPlan(city);
 }
 
 // ========================================
-// 天气模块
+// 天气模块 - 使用高德API
 // ========================================
-async function loadWeatherByCoords(coords) {
+async function loadWeatherByCity(city) {
     const weatherLoading = DOM.weatherCard.querySelector('.weather-loading');
     const weatherContent = DOM.weatherCard.querySelector('.weather-content');
     
     weatherLoading.style.display = 'block';
     weatherContent.style.display = 'none';
     
-    // 检查是否配置了真实API密钥
-    if (CONFIG.WEATHER_API_KEY === 'YOUR_OPENWEATHERMAP_API_KEY') {
-        // 使用模拟数据
-        setTimeout(() => {
-            const mockWeather = generateMockWeather();
-            displayWeather(mockWeather);
-            displayForecast(generateMockForecast());
-            weatherLoading.style.display = 'none';
-            weatherContent.style.display = 'grid';
-        }, 1000);
+    const cityCode = CONFIG.CITY_CODES[city];
+    if (!cityCode) {
+        showToast('无法获取该城市的天气信息', 'error');
         return;
     }
     
     try {
-        // 获取当前天气
-        const weatherResponse = await fetch(
-            `${CONFIG.WEATHER_API_URL}/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${CONFIG.WEATHER_API_KEY}&units=metric&lang=zh_cn`
+        // 获取实时天气
+        const liveResponse = await fetch(
+            `${CONFIG.AMAP_WEATHER_URL}?city=${cityCode}&key=${CONFIG.AMAP_KEY}&extensions=base`
         );
-        const weatherData = await weatherResponse.json();
+        const liveData = await liveResponse.json();
         
         // 获取天气预报
         const forecastResponse = await fetch(
-            `${CONFIG.WEATHER_API_URL}/forecast?lat=${coords.lat}&lon=${coords.lon}&appid=${CONFIG.WEATHER_API_KEY}&units=metric&lang=zh_cn`
+            `${CONFIG.AMAP_WEATHER_URL}?city=${cityCode}&key=${CONFIG.AMAP_KEY}&extensions=all`
         );
         const forecastData = await forecastResponse.json();
         
-        displayWeather(weatherData);
-        displayForecast(forecastData);
+        if (liveData.status === '1' && liveData.lives && liveData.lives.length > 0) {
+            displayWeatherAmap(liveData.lives[0]);
+        }
+        
+        if (forecastData.status === '1' && forecastData.forecasts && forecastData.forecasts.length > 0) {
+            displayForecastAmap(forecastData.forecasts[0].casts);
+        }
         
         weatherLoading.style.display = 'none';
         weatherContent.style.display = 'grid';
+        
     } catch (error) {
         console.error('获取天气失败:', error);
-        // 使用模拟数据作为后备
-        const mockWeather = generateMockWeather();
-        displayWeather(mockWeather);
-        displayForecast(generateMockForecast());
+        showToast('获取天气信息失败，请稍后重试', 'error');
         weatherLoading.style.display = 'none';
-        weatherContent.style.display = 'grid';
     }
 }
 
-// 生成模拟天气数据
-function generateMockWeather() {
-    const weathers = [
-        { main: '晴', icon: '☀️', temp: 18 },
-        { main: '多云', icon: '⛅', temp: 15 },
-        { main: '阴', icon: '☁️', temp: 12 },
-        { main: '小雨', icon: '🌧️', temp: 10 }
-    ];
-    const weather = weathers[Math.floor(Math.random() * weathers.length)];
-    
-    return {
-        weather: [{ description: weather.main, icon: weather.icon }],
-        main: {
-            temp: weather.temp + Math.floor(Math.random() * 10),
-            feels_like: weather.temp + Math.floor(Math.random() * 5),
-            humidity: 40 + Math.floor(Math.random() * 40)
-        },
-        wind: { speed: 2 + Math.random() * 5 },
-        visibility: 8000 + Math.floor(Math.random() * 7000)
-    };
-}
-
-// 生成模拟预报数据
-function generateMockForecast() {
-    const icons = ['☀️', '⛅', '☁️', '🌧️', '⛅'];
-    const days = ['明天', '后天', '第3天', '第4天', '第5天'];
-    
-    return {
-        list: days.map((day, i) => ({
-            dt: Date.now() / 1000 + (i + 1) * 86400,
-            main: {
-                temp_max: 15 + Math.floor(Math.random() * 10),
-                temp_min: 5 + Math.floor(Math.random() * 8)
-            },
-            weather: [{ icon: icons[i] }]
-        }))
-    };
-}
-
-// 显示天气
-function displayWeather(data) {
-    const temp = Math.round(data.main.temp);
-    const feelsLike = Math.round(data.main.feels_like);
-    const description = data.weather[0].description;
-    const humidity = data.main.humidity;
-    const windSpeed = data.wind.speed.toFixed(1);
-    const visibility = (data.visibility / 1000).toFixed(1);
+// 显示高德天气数据
+function displayWeatherAmap(data) {
+    const temp = parseInt(data.temperature);
+    const humidity = data.humidity;
+    const weather = data.weather;
+    const windDirection = data.winddirection;
+    const windPower = data.windpower;
     
     // 获取天气图标
-    const iconCode = data.weather[0].icon;
-    const weatherIcon = typeof iconCode === 'string' && iconCode.length <= 3 
-        ? getWeatherIcon(iconCode) 
-        : iconCode;
+    const weatherIcon = getWeatherIconAmap(weather);
     
     DOM.weatherIcon.textContent = weatherIcon;
     DOM.tempValue.textContent = temp;
-    DOM.weatherDesc.textContent = description;
+    DOM.weatherDesc.textContent = weather;
     DOM.humidity.textContent = humidity + '%';
-    DOM.windSpeed.textContent = windSpeed + ' m/s';
-    DOM.feelsLike.textContent = feelsLike + '°C';
-    DOM.visibility.textContent = visibility + ' km';
+    DOM.windSpeed.textContent = windDirection + '风 ' + windPower + '级';
+    DOM.feelsLike.textContent = temp + '°C'; // 高德API没有体感温度，使用实际温度
+    DOM.visibility.textContent = '--'; // 高德基础API没有能见度
     
     // 穿衣建议
-    DOM.clothingAdvice.textContent = getClothingAdvice(temp, description);
+    DOM.clothingAdvice.textContent = getClothingAdvice(temp, weather);
 }
 
-// 获取天气图标
-function getWeatherIcon(code) {
-    const icons = {
-        '01d': '☀️', '01n': '🌙',
-        '02d': '⛅', '02n': '☁️',
-        '03d': '☁️', '03n': '☁️',
-        '04d': '☁️', '04n': '☁️',
-        '09d': '🌧️', '09n': '🌧️',
-        '10d': '🌦️', '10n': '🌧️',
-        '11d': '⛈️', '11n': '⛈️',
-        '13d': '❄️', '13n': '❄️',
-        '50d': '🌫️', '50n': '🌫️'
+// 获取高德天气图标
+function getWeatherIconAmap(weather) {
+    const iconMap = {
+        '晴': '☀️',
+        '多云': '⛅',
+        '阴': '☁️',
+        '小雨': '🌧️',
+        '中雨': '🌧️',
+        '大雨': '🌧️',
+        '暴雨': '⛈️',
+        '雷阵雨': '⛈️',
+        '阵雨': '🌦️',
+        '小雪': '🌨️',
+        '中雪': '🌨️',
+        '大雪': '❄️',
+        '暴雪': '❄️',
+        '雨夹雪': '🌨️',
+        '雾': '🌫️',
+        '霾': '🌫️',
+        '扬沙': '🌪️',
+        '沙尘暴': '🌪️',
+        '浮尘': '🌫️'
     };
-    return icons[code] || '🌤️';
+    
+    // 模糊匹配
+    for (const [key, icon] of Object.entries(iconMap)) {
+        if (weather.includes(key)) {
+            return icon;
+        }
+    }
+    
+    return '🌤️'; // 默认图标
 }
 
 // 穿衣建议
@@ -648,25 +679,25 @@ function getClothingAdvice(temp, weather) {
         advice += ' 🌂 记得带伞，穿防水的鞋子。';
     } else if (weather.includes('雪')) {
         advice += ' ❄️ 注意防滑，穿保暖防水的靴子。';
-    } else if (weather.includes('风')) {
-        advice += ' 💨 风大，注意防风，可戴帽子。';
+    } else if (weather.includes('风') || weather.includes('沙')) {
+        advice += ' 💨 风大，注意防风，可戴口罩和帽子。';
+    } else if (weather.includes('雾') || weather.includes('霾')) {
+        advice += ' 😷 空气质量较差，建议戴口罩，减少户外活动。';
     }
     
     return advice;
 }
 
-// 显示天气预报
-function displayForecast(data) {
-    const forecasts = data.list.filter((item, index) => index % 8 === 0).slice(0, 5);
+// 显示高德天气预报
+function displayForecastAmap(casts) {
+    const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
     
-    DOM.forecastCards.innerHTML = forecasts.map((item, index) => {
-        const date = new Date(item.dt * 1000);
-        const dayName = index === 0 ? '明天' : ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][date.getDay()];
-        const icon = typeof item.weather[0].icon === 'string' && item.weather[0].icon.length <= 3
-            ? getWeatherIcon(item.weather[0].icon)
-            : item.weather[0].icon;
-        const high = Math.round(item.main.temp_max);
-        const low = Math.round(item.main.temp_min);
+    DOM.forecastCards.innerHTML = casts.map((cast, index) => {
+        const date = new Date(cast.date);
+        const dayName = index === 0 ? '今天' : weekDays[date.getDay()];
+        const icon = getWeatherIconAmap(cast.dayweather);
+        const high = cast.daytemp;
+        const low = cast.nighttemp;
         
         return `
             <div class="forecast-card">
@@ -676,6 +707,7 @@ function displayForecast(data) {
                     <span class="high">${high}°</span>
                     <span class="low">${low}°</span>
                 </div>
+                <div class="forecast-desc">${cast.dayweather}</div>
             </div>
         `;
     }).join('');
@@ -977,7 +1009,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initSubscribe();
     
     console.log('🚀 途迹 TravelPath 已加载完成！');
-    console.log('📝 提示: 请在 CONFIG 中配置真实的 OpenWeatherMap API 密钥以获取实时天气数据');
-    console.log('🔗 获取API密钥: https://openweathermap.org/api');
+    console.log('🗺️ 使用高德地图API提供天气服务');
 });
-
