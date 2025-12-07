@@ -105,6 +105,45 @@ const CONFIG = {
             { name: '玉龙雪山', desc: '北半球最南的大雪山，纳西族的神山', rating: 4.8, tags: ['雪山', '自然'], image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80' },
             { name: '泸沽湖', desc: '高原明珠，神秘的女儿国', rating: 4.9, tags: ['湖泊', '民俗'], image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80' },
             { name: '束河古镇', desc: '比大研古镇更安静的纳西村落', rating: 4.5, tags: ['古镇', '休闲'], image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=600&q=80' }
+        ],
+        '深圳': [
+            { name: '世界之窗', desc: '微缩世界著名景观，一日游遍全球', rating: 4.6, tags: ['主题乐园', '微缩景观'], image: 'https://images.unsplash.com/photo-1513415756790-2ac1db1297d0?w=600&q=80' },
+            { name: '欢乐谷', desc: '大型现代主题乐园，刺激项目众多', rating: 4.5, tags: ['主题乐园', '游乐'], image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?w=600&q=80' },
+            { name: '东部华侨城', desc: '集山海风光与主题乐园于一体', rating: 4.7, tags: ['度假区', '自然'], image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' },
+            { name: '大梅沙海滨公园', desc: '深圳最美海滩，免费戏水好去处', rating: 4.4, tags: ['海滩', '免费'], image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' },
+            { name: '深圳湾公园', desc: '海滨长廊骑行，看日落绝佳地点', rating: 4.6, tags: ['公园', '海景'], image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80' },
+            { name: '华强北', desc: '中国电子第一街，数码爱好者天堂', rating: 4.3, tags: ['购物', '电子'], image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80' }
+        ],
+        '广州': [
+            { name: '广州塔', desc: '小蛮腰，广州新地标，俯瞰珠江美景', rating: 4.7, tags: ['地标', '观光'], image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=600&q=80' },
+            { name: '长隆野生动物世界', desc: '亚洲最大野生动物园，亲子游首选', rating: 4.8, tags: ['动物园', '亲子'], image: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&q=80' },
+            { name: '沙面岛', desc: '欧陆风情历史建筑群，文艺拍照圣地', rating: 4.5, tags: ['历史', '建筑'], image: 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=600&q=80' },
+            { name: '北京路步行街', desc: '千年古道，广州最繁华商业街', rating: 4.4, tags: ['购物', '美食'], image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80' },
+            { name: '陈家祠', desc: '岭南建筑艺术明珠，精美木雕石雕', rating: 4.6, tags: ['历史', '建筑'], image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600&q=80' }
+        ],
+        '南京': [
+            { name: '中山陵', desc: '孙中山先生陵墓，庄严肃穆的纪念地', rating: 4.8, tags: ['历史', '纪念'], image: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=600&q=80' },
+            { name: '夫子庙', desc: '秦淮风光带核心，品尝金陵小吃', rating: 4.5, tags: ['历史', '美食'], image: 'https://images.unsplash.com/photo-1577086664693-894d8c895bca?w=600&q=80' },
+            { name: '明孝陵', desc: '明朝开国皇帝陵墓，世界文化遗产', rating: 4.7, tags: ['世界遗产', '历史'], image: 'https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=600&q=80' },
+            { name: '玄武湖', desc: '江南皇家园林，休闲漫步好去处', rating: 4.4, tags: ['公园', '湖泊'], image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80' }
+        ],
+        '重庆': [
+            { name: '洪崖洞', desc: '魔幻山城地标，千与千寻现实版', rating: 4.7, tags: ['夜景', '地标'], image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=600&q=80' },
+            { name: '解放碑步行街', desc: '重庆最繁华商圈，美食购物天堂', rating: 4.5, tags: ['购物', '美食'], image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80' },
+            { name: '磁器口古镇', desc: '千年古镇，品尝麻花和火锅', rating: 4.6, tags: ['古镇', '美食'], image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=600&q=80' },
+            { name: '长江索道', desc: '飞渡长江，俯瞰山城立体交通', rating: 4.8, tags: ['交通', '观光'], image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' }
+        ],
+        '武汉': [
+            { name: '黄鹤楼', desc: '天下江山第一楼，武汉城市名片', rating: 4.7, tags: ['历史', '地标'], image: 'https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=600&q=80' },
+            { name: '东湖风景区', desc: '中国最大城中湖，樱花季美不胜收', rating: 4.6, tags: ['公园', '湖泊'], image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80' },
+            { name: '户部巷', desc: '武汉早餐一条街，热干面必打卡', rating: 4.5, tags: ['美食', '小吃'], image: 'https://images.unsplash.com/photo-1568819317551-31051b37f69f?w=600&q=80' },
+            { name: '武汉长江大桥', desc: '万里长江第一桥，徒步横跨长江', rating: 4.4, tags: ['地标', '桥梁'], image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' }
+        ],
+        '桂林': [
+            { name: '漓江', desc: '桂林山水甲天下，乘船游览最佳', rating: 4.9, tags: ['山水', '游船'], image: 'https://images.unsplash.com/photo-1537531383496-f4749b8032cf?w=600&q=80' },
+            { name: '阳朔西街', desc: '最美洋人街，异国风情与本土文化融合', rating: 4.5, tags: ['古街', '夜生活'], image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=600&q=80' },
+            { name: '龙脊梯田', desc: '世界梯田之冠，壮族风情', rating: 4.7, tags: ['梯田', '民俗'], image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' },
+            { name: '象鼻山', desc: '桂林城徽，酷似大象饮水', rating: 4.4, tags: ['地标', '山水'], image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80' }
         ]
     },
     
@@ -720,17 +759,21 @@ function loadAttractions(city) {
     const attractions = CONFIG.ATTRACTIONS[city];
     
     if (!attractions) {
-        DOM.attractionsGrid.innerHTML = `
-            <div class="attraction-placeholder">
-                <p>🔍 暂无 "${city}" 的景点数据，敬请期待更多城市上线</p>
-            </div>
-        `;
+        // 没有预设数据，调用AI生成
+        loadAttractionsFromAI(city);
         return;
     }
     
-    DOM.attractionsGrid.innerHTML = attractions.map(attr => `
+    renderAttractions(attractions);
+}
+
+// 渲染景点卡片（无图片版本）
+function renderAttractions(attractions) {
+    const icons = ['🏛️', '🏯', '🌳', '⛩️', '🎭', '🏔️', '🌊', '🎪', '🗼', '🌸'];
+    DOM.attractionsGrid.innerHTML = attractions.map((attr, index) => `
         <div class="attraction-card">
-            <div class="attraction-image" style="background-image: url('${attr.image}')">
+            <div class="attraction-header">
+                <div class="attraction-icon">${icons[index % icons.length]}</div>
                 <div class="attraction-rating">
                     <span class="stars">★</span> ${attr.rating}
                 </div>
@@ -746,6 +789,46 @@ function loadAttractions(city) {
     `).join('');
 }
 
+// 调用AI生成景点推荐
+async function loadAttractionsFromAI(city) {
+    DOM.attractionsGrid.innerHTML = `
+        <div class="attraction-placeholder">
+            <div class="loading-pulse"></div>
+            <p>🤖 AI正在为您搜索 "${city}" 的热门景点...</p>
+        </div>
+    `;
+    
+    try {
+        const response = await fetch('/travel-guide/api/ai.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'attractions', city: city })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.attractions) {
+            // 缓存到CONFIG中
+            CONFIG.ATTRACTIONS[city] = data.attractions;
+            renderAttractions(data.attractions);
+            showToast(`已为您找到 ${city} 的 ${data.attractions.length} 个热门景点`, 'success');
+        } else {
+            DOM.attractionsGrid.innerHTML = `
+                <div class="attraction-placeholder">
+                    <p>😔 暂时无法获取 "${city}" 的景点数据，请稍后重试</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('AI景点推荐失败:', error);
+        DOM.attractionsGrid.innerHTML = `
+            <div class="attraction-placeholder">
+                <p>🔍 暂无 "${city}" 的景点数据</p>
+            </div>
+        `;
+    }
+}
+
 // ========================================
 // 旅行计划
 // ========================================
@@ -755,10 +838,18 @@ function loadTravelPlan(city) {
     let planContent = DOM.planCard.querySelector('.plan-content');
     
     if (!plan) {
-        placeholder.style.display = 'block';
-        if (planContent) planContent.style.display = 'none';
+        // 没有预设数据，调用AI生成
+        loadTravelPlanFromAI(city);
         return;
     }
+    
+    renderTravelPlan(plan, placeholder, planContent);
+}
+
+// 渲染旅行计划
+function renderTravelPlan(plan, placeholder, planContent) {
+    if (!placeholder) placeholder = DOM.planCard.querySelector('.plan-placeholder');
+    if (!planContent) planContent = DOM.planCard.querySelector('.plan-content');
     
     placeholder.style.display = 'none';
     
@@ -787,10 +878,68 @@ function loadTravelPlan(city) {
     planContent.style.display = 'block';
 }
 
+// 调用AI生成旅行计划
+async function loadTravelPlanFromAI(city) {
+    const placeholder = DOM.planCard.querySelector('.plan-placeholder');
+    let planContent = DOM.planCard.querySelector('.plan-content');
+    
+    // 显示加载状态
+    placeholder.innerHTML = `
+        <div class="loading-pulse"></div>
+        <p>🤖 AI正在为您规划 "${city}" 的行程...</p>
+    `;
+    placeholder.style.display = 'block';
+    if (planContent) planContent.style.display = 'none';
+    
+    try {
+        const response = await fetch('/travel-guide/api/ai.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'plan', city: city })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.plan) {
+            // 缓存到CONFIG中
+            CONFIG.TRAVEL_PLANS[city] = data.plan;
+            
+            // 恢复placeholder原始内容
+            placeholder.innerHTML = `
+                <div class="plan-icon">🗺️</div>
+                <p>选择目的地后，我们将为您生成个性化旅行计划</p>
+                <ul class="plan-features">
+                    <li>✨ 热门景点打卡路线</li>
+                    <li>🍜 特色美食推荐</li>
+                    <li>🏨 住宿区域建议</li>
+                    <li>🚌 交通出行指南</li>
+                </ul>
+            `;
+            
+            renderTravelPlan(data.plan, placeholder, planContent);
+            showToast(`已为您生成 ${city} 的旅行计划`, 'success');
+        } else {
+            placeholder.innerHTML = `
+                <div class="plan-icon">😔</div>
+                <p>暂时无法生成 "${city}" 的旅行计划，请稍后重试</p>
+            `;
+        }
+    } catch (error) {
+        console.error('AI旅行计划失败:', error);
+        placeholder.innerHTML = `
+            <div class="plan-icon">🗺️</div>
+            <p>选择目的地后，我们将为您生成个性化旅行计划</p>
+        `;
+    }
+}
+
 // ========================================
 // 游记评论
 // ========================================
 function initReviews() {
+    // 初始化自定义下拉选择框
+    initCustomSelect();
+    
     // 星级评分
     const stars = DOM.starRating.querySelectorAll('.star');
     let currentRating = 5;
@@ -851,11 +1000,76 @@ function initReviews() {
         currentRating = 5;
         updateStars(stars, currentRating);
         
+        // 重置自定义下拉框
+        resetCustomSelect();
+        
         showToast('游记发布成功！感谢您的分享 🎉', 'success');
     });
     
     // 加载已有游记
     loadReviews();
+}
+
+// 初始化自定义下拉选择框
+function initCustomSelect() {
+    const customSelect = document.getElementById('destinationSelect');
+    if (!customSelect) return;
+    
+    const selected = customSelect.querySelector('.select-selected');
+    const options = customSelect.querySelector('.select-options');
+    const hiddenInput = customSelect.querySelector('input[type="hidden"]');
+    const optionItems = customSelect.querySelectorAll('.select-option');
+    
+    // 点击选择框
+    selected.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selected.classList.toggle('active');
+        options.classList.toggle('show');
+    });
+    
+    // 点击选项
+    optionItems.forEach(option => {
+        option.addEventListener('click', () => {
+            const value = option.dataset.value;
+            const text = option.textContent;
+            
+            // 更新显示
+            selected.querySelector('span:first-child').textContent = text;
+            selected.classList.add('has-value');
+            
+            // 更新隐藏输入
+            hiddenInput.value = value;
+            
+            // 移除其他选中状态
+            optionItems.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+            
+            // 关闭下拉
+            selected.classList.remove('active');
+            options.classList.remove('show');
+        });
+    });
+    
+    // 点击其他地方关闭
+    document.addEventListener('click', () => {
+        selected.classList.remove('active');
+        options.classList.remove('show');
+    });
+}
+
+// 重置自定义下拉框
+function resetCustomSelect() {
+    const customSelect = document.getElementById('destinationSelect');
+    if (!customSelect) return;
+    
+    const selected = customSelect.querySelector('.select-selected');
+    const hiddenInput = customSelect.querySelector('input[type="hidden"]');
+    const optionItems = customSelect.querySelectorAll('.select-option');
+    
+    selected.querySelector('span:first-child').textContent = '选择目的地';
+    selected.classList.remove('has-value');
+    hiddenInput.value = '';
+    optionItems.forEach(opt => opt.classList.remove('selected'));
 }
 
 function updateStars(stars, rating) {

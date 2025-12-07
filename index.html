@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>途迹 TravelPath - 智能旅游攻略平台</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -59,25 +59,25 @@
                         <p>不到长城非好汉，登临万里一览众山小</p>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?w=1920&q=80')">
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?w=1920&q=80')">
                     <div class="slide-content">
                         <h2>上海 · 外滩</h2>
                         <p>十里洋场繁华梦，东方明珠耀浦江</p>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1609921212029-bb5a28e60960?w=1920&q=80')">
+                <div class="carousel-slide" style="background-image: url('https://tse1.mm.bing.net/th/id/OIP.Ltwg5DrGKW0f3Yv9F4EdXQHaEi?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3')">
                     <div class="slide-content">
                         <h2>杭州 · 西湖</h2>
                         <p>欲把西湖比西子，淡妆浓抹总相宜</p>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1598887142487-3c854d51eabb?w=1920&q=80')">
+                <div class="carousel-slide" style="background-image: url('https://img95.699pic.com/photo/50061/9620.jpg_wh860.jpg')">
                     <div class="slide-content">
                         <h2>成都 · 宽窄巷子</h2>
                         <p>慢生活里品川味，悠然自得享蓉城</p>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1529921879218-a1cfa3b86d0d?w=1920&q=80')">
+                <div class="carousel-slide" style="background-image: url('https://th.bing.com/th/id/R.f94915129d39c514ee6274f99d305c71?rik=1v%2bRpOGeqxnHpw&riu=http%3a%2f%2fn.sinaimg.cn%2fsinacn08%2f222%2fw640h382%2f20180521%2f5d75-haturft5542831.jpg&ehk=B9jBHRLhQukp84tm1CBfBolJsOSeZA%2fJOgsWcFPiuwM%3d&risl=&pid=ImgRaw&r=0')">
                     <div class="slide-content">
                         <h2>三亚 · 亚龙湾</h2>
                         <p>椰风海韵天涯路，碧海蓝天度假情</p>
@@ -183,7 +183,7 @@
             
             <!-- 未来天气预报 -->
             <div class="forecast-container" id="forecastContainer">
-                <h3 class="forecast-title">📅 未来5天天气预报</h3>
+                <h3 class="forecast-title">📅 未来天气预报</h3>
                 <div class="forecast-cards" id="forecastCards">
                     <!-- 预报卡片将通过JS动态生成 -->
                 </div>
@@ -298,20 +298,26 @@
                         <input type="text" id="reviewerName" placeholder="给自己起个旅行代号~" required>
                     </div>
                     <div class="form-group">
-                        <label for="reviewDestination">去了哪里</label>
-                        <select id="reviewDestination" required>
-                            <option value="">选择目的地</option>
-                            <option value="北京">北京</option>
-                            <option value="上海">上海</option>
-                            <option value="杭州">杭州</option>
-                            <option value="成都">成都</option>
-                            <option value="西安">西安</option>
-                            <option value="厦门">厦门</option>
-                            <option value="丽江">丽江</option>
-                            <option value="三亚">三亚</option>
-                            <option value="桂林">桂林</option>
-                            <option value="其他">其他</option>
-                        </select>
+                        <label>去了哪里</label>
+                        <div class="custom-select" id="destinationSelect">
+                            <div class="select-selected">
+                                <span>选择目的地</span>
+                                <span class="select-arrow">▼</span>
+                            </div>
+                            <div class="select-options">
+                                <div class="select-option" data-value="北京">📍 北京</div>
+                                <div class="select-option" data-value="上海">📍 上海</div>
+                                <div class="select-option" data-value="杭州">📍 杭州</div>
+                                <div class="select-option" data-value="成都">📍 成都</div>
+                                <div class="select-option" data-value="西安">📍 西安</div>
+                                <div class="select-option" data-value="厦门">📍 厦门</div>
+                                <div class="select-option" data-value="丽江">📍 丽江</div>
+                                <div class="select-option" data-value="三亚">📍 三亚</div>
+                                <div class="select-option" data-value="桂林">📍 桂林</div>
+                                <div class="select-option" data-value="其他">📍 其他</div>
+                            </div>
+                            <input type="hidden" id="reviewDestination" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="reviewRating">旅行评分</label>
@@ -464,7 +470,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 途迹 TravelPath. All rights reserved.</p>
+                <p>© 2025 途迹 TravelPath. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -472,7 +478,9 @@
     <!-- Toast 通知 -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=3"></script>
 </body>
 </html>
+
+
 

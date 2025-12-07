@@ -753,14 +753,14 @@ body {
 
 .forecast-title {
     font-size: 20px;
-    text-align: center;
+    text-align: left;
     margin-bottom: 24px;
     color: var(--text-secondary);
 }
 
 .forecast-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
 
@@ -857,6 +857,21 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(12, 18, 34, 0.8) 0%, transparent 50%);
+}
+
+/* 无图片版本的景点卡片头部 */
+.attraction-header {
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary) 0%, #0d9488 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attraction-icon {
+    font-size: 48px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
 .attraction-rating {
@@ -1172,6 +1187,96 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
+}
+
+/* 自定义下拉选择框 */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-selected {
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-fast);
+}
+
+.select-selected:hover {
+    border-color: var(--primary-light);
+}
+
+.select-selected.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(15, 118, 110, 0.2);
+}
+
+.select-selected.has-value {
+    color: var(--text-primary);
+}
+
+.select-arrow {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    color: var(--text-muted);
+}
+
+.select-selected.active .select-arrow {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #1a2435;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.select-options.show {
+    max-height: 300px;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.select-option {
+    padding: 14px 18px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 15px;
+}
+
+.select-option:last-child {
+    border-bottom: none;
+}
+
+.select-option:hover {
+    background: linear-gradient(90deg, rgba(15, 118, 110, 0.3) 0%, rgba(15, 118, 110, 0.1) 100%);
+    color: #f1f5f9;
+    padding-left: 24px;
+}
+
+.select-option.selected {
+    background: linear-gradient(135deg, var(--primary) 0%, #0d9488 100%);
+    color: white;
+    font-weight: 500;
 }
 
 .form-group textarea {
@@ -1677,7 +1782,7 @@ body {
     }
     
     .forecast-cards {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -1783,4 +1888,6 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
 
